@@ -13,7 +13,8 @@ Containership.Views.UpdateApplicationModal = Backbone.View.extend({
         "keyup #appCPUs": "setCPUs",
         "keyup #appMemory": "setMemory",
         "keyup #appContainerPort": "setContainerPort",
-        "change #network_mode_inputs input[type=radio]": "setNetworkMode"
+        "change #network_mode_inputs input[type=radio]": "setNetworkMode",
+        "change #respawn_inputs input[type=radio]": "setRespawn"
     },
 
     initialize: function(){},
@@ -42,11 +43,20 @@ Containership.Views.UpdateApplicationModal = Backbone.View.extend({
                     '</div>',
                     '<div class="two column row">',
                         '<div class = "four wide column">',
-                            '<label>Automatic Respawn</label>',
+                            '<label>Network Mode</label>',
                         '</div>',
                         '<div id="network_mode_inputs" class = "twelve wide column fluid">',
-                            '<input type="radio" name="respawn_enabled" value="true" checked> On',
-                            '<input style="margin-left:25px;" type="radio" name="respawn_enabled" value="false"> Off',
+                            '<input type="radio" name="network_mode" value="host"> Host',
+                            '<input style="margin-left:25px;" type="radio" name="network_mode" value="bridge" checked> Bridge',
+                        '</div>',
+                    '</div>',
+                    '<div class="two column row">',
+                        '<div class = "four wide column">',
+                            '<label>Automatic Respawn</label>',
+                        '</div>',
+                        '<div id="respawn_inputs" class = "twelve wide column fluid">',
+                            '<input type="radio" name="respawn" value="true" checked> On',
+                            '<input style="margin-left:25px;" type="radio" name="respawn" value="false"> Off',
                         '</div>',
                     '</div>',
                     '<div class="two column row">',
@@ -113,5 +123,10 @@ Containership.Views.UpdateApplicationModal = Backbone.View.extend({
 
     setNetworkMode: function(element){
         this.model.set({network_mode: $(element.target).val()});
+    },
+
+    setRespawn: function(element){
+        this.model.set({respawn: $(element.target).val()});
     }
+
 });
