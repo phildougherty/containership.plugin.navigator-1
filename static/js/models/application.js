@@ -4,13 +4,15 @@ window.Containership.Models.Application = Backbone.Model.extend({
         this.set("views", {
             list: new Containership.Views.ApplicationList({model: this}),
             details: new Containership.Views.ApplicationDetails({model: this}),
-            modal: new Containership.Views.NewApplicationModal({model: this})
+            modal: new Containership.Views.NewApplicationModal({model: this}),
+            update: new Containership.Views.UpdateApplicationModal({model: this})
         });
 
         this.on("remove", function(){
             this.get("views").list.remove();
             this.get("views").details.remove();
             this.get("views").modal.remove();
+            this.get("views").update.remove();
         });
     },
 

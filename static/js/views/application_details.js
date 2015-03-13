@@ -5,7 +5,14 @@ Containership.Views.ApplicationDetails = Backbone.View.extend({
     className: "grid ui",
 
     events: {
-        "click #deleteButton": "delete_application"
+        "click #deleteButton": "delete_application",
+        "click #updateButton": "update_application",
+        "keyup #appImage": "setImage",
+        "keyup #appCommand": "setCommand",
+        "keyup #appCPUs": "setCPUs",
+        "keyup #appMemory": "setMemory",
+        "keyup #appContainerPort": "setContainerPort",
+        "change #network_mode_inputs input[type=radio]": "setNetworkMode"
     },
 
     initialize: function(){},
@@ -18,7 +25,7 @@ Containership.Views.ApplicationDetails = Backbone.View.extend({
                 '</div>',
                 '<div class = "eight wide column right aligned">',
                     '<div class="ui buttons">',
-                        '<div class="ui button">Update</div>',
+                        '<div id = "updateButton" class="ui button">Update</div>',
                         '<div class="or"></div>',
                         '<div id = "deleteButton" class="ui negative button">Delete</div>',
                     '</div>',
@@ -126,6 +133,7 @@ Containership.Views.ApplicationDetails = Backbone.View.extend({
                         '</div>',
                     '</div>',
                 '</div>',
+            '</div>',
             '</div>'
         ]
 
@@ -144,6 +152,46 @@ Containership.Views.ApplicationDetails = Backbone.View.extend({
                 });
             }
         }).modal("show");
+    },
+
+    update_application: function(){
+        var self = this; 
+        this.model.get("views").update.render(); 
+        $("#applicationUpdate").modal({
+            onApprove: function(){
+                self.model.save({
+                    success: function(){
+                        window.location = ["", "#", "applications", this.model.get("id")].join("/");
+                    }
+                });
+            }
+        }).modal("show");
+    },
+
+    setImage: function(element){
+        this.model.set({image: $(element.target).val()});
+    },
+
+    setCommand: function(element){
+        this.model.set({command: $(element.target).val()});
+    },
+
+    setCPUs: function(element){
+        this.model.set({cpus: $(element.target).val()});
+    },
+
+    setMemory: function(element){
+        this.model.set({memory: $(element.target).val()});
+    },
+
+    setContainerPort: function(element){
+        if($(element.target).val() != null && $(element.target).val() != ""){
+            this.model.set({container_port: $(element.target).val()});
+        }
+    },
+
+    setRespawnMode: function(element){
+        this.model.set({respawn: $(element.target).val()});
     }
 
 });
